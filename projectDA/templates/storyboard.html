@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %}Storyboard | Housing Market Insights{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div>
+        <h1 class="page-title">Housing Market Storyboard</h1>
+        <p class="page-description">A guided analytical storyboard presenting structural trends, features, and key business insights.</p>
+    </div>
+</div>
+
+<!-- Storyboard points navigation/overview -->
+<div class="glass-panel" style="padding: 1.5rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; text-align: center;">
+    <div style="padding: 0.5rem;">
+        <h4 style="color: var(--primary); font-size: 1.1rem; margin-bottom: 0.25rem;">Point 1</h4>
+        <span style="font-size: 0.85rem; color: var(--text-muted);">Market Overview</span>
+    </div>
+    <div style="padding: 0.5rem; border-left: 1px solid var(--glass-border);">
+        <h4 style="color: var(--secondary); font-size: 1.1rem; margin-bottom: 0.25rem;">Point 2</h4>
+        <span style="font-size: 0.85rem; color: var(--text-muted);">Sales Analysis</span>
+    </div>
+    <div style="padding: 0.5rem; border-left: 1px solid var(--glass-border);">
+        <h4 style="color: var(--accent); font-size: 1.1rem; margin-bottom: 0.25rem;">Point 3</h4>
+        <span style="font-size: 0.85rem; color: var(--text-muted);">Renovation Analysis</span>
+    </div>
+    <div style="padding: 0.5rem; border-left: 1px solid var(--glass-border);">
+        <h4 style="color: #10b981; font-size: 1.1rem; margin-bottom: 0.25rem;">Point 4</h4>
+        <span style="font-size: 0.85rem; color: var(--text-muted);">Property Features</span>
+    </div>
+    <div style="padding: 0.5rem; border-left: 1px solid var(--glass-border);">
+        <h4 style="color: #f59e0b; font-size: 1.1rem; margin-bottom: 0.25rem;">Point 5</h4>
+        <span style="font-size: 0.85rem; color: var(--text-muted);">Business Insights</span>
+    </div>
+</div>
+
+<!-- Embedded Storyboard Frame -->
+<div class="iframe-wrapper glass-panel" style="height: 760px;">
+    <iframe src="{{ tableau_url }}?:embed=y&:showVizHome=no&:host_url=https%3A%2F%2Fpublic.tableau.com%2F&:tabs=yes&:toolbar=yes&:animate_transition=yes" 
+            title="Tableau Housing Market Storyboard" 
+            allowfullscreen>
+    </iframe>
+</div>
+{% endblock %}

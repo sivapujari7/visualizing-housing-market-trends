@@ -1,0 +1,404 @@
+import os
+
+def create_twb_file():
+    twb_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'housing_analytics.twb')
+    csv_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data')
+    csv_dir_forward_slash = csv_dir.replace('\\', '/')
+    
+    # We will generate a well-formed Tableau XML file
+    xml_content = f"""<?xml version='1.0' encoding='utf-8' ?>
+<workbook source-platform='win' version='18.1' xmlns:user='http://www.tableausoftware.com/xml/user'>
+  <document-format-change-manifest>
+    <_:tblschema-relationship-by-ui AllowedUser='true' />
+  </document-format-change-manifest>
+  <preferences>
+    <preference name='ui.encoding.shelf.height' value='250' />
+    <preference name='ui.shelf.height' value='250' />
+  </preferences>
+  <datasources>
+    <datasource caption='Cleaned Housing Data' inline='true' name='federated.cleaned_housing_data' version='18.1'>
+      <connection class='federated'>
+        <named-connections>
+          <named-connection caption='cleaned_housing_data' name='textscan.cleaned_housing_data'>
+            <connection class='textscan' directory='{csv_dir_forward_slash}' filename='cleaned_housing_data.csv' password='' server='' />
+          </named-connection>
+        </named-connections>
+        <relation connection='textscan.cleaned_housing_data' name='cleaned_housing_data.csv' table='[cleaned_housing_data#csv]' type='table'>
+          <columns character-set='UTF-8' header='yes' locale='en_US' separator=','>
+            <column datatype='integer' name='id' ordinal='0' />
+            <column datatype='string' name='date' ordinal='1' />
+            <column datatype='real' name='Sale Price' ordinal='2' />
+            <column datatype='integer' name='Bedrooms' ordinal='3' />
+            <column datatype='real' name='Bathrooms' ordinal='4' />
+            <column datatype='integer' name='Living Area Sqft' ordinal='5' />
+            <column datatype='integer' name='Lot Area Sqft' ordinal='6' />
+            <column datatype='real' name='Floors' ordinal='7' />
+            <column datatype='integer' name='Waterfront' ordinal='8' />
+            <column datatype='integer' name='View' ordinal='9' />
+            <column datatype='integer' name='Condition' ordinal='10' />
+            <column datatype='integer' name='Grade' ordinal='11' />
+            <column datatype='integer' name='Above Ground Area Sqft' ordinal='12' />
+            <column datatype='integer' name='Basement Area Sqft' ordinal='13' />
+            <column datatype='integer' name='Year Built' ordinal='14' />
+            <column datatype='integer' name='Year Renovated' ordinal='15' />
+            <column datatype='integer' name='Zipcode' ordinal='16' />
+            <column datatype='real' name='Latitude' ordinal='17' />
+            <column datatype='real' name='Longitude' ordinal='18' />
+            <column datatype='integer' name='Sale Year' ordinal='19' />
+            <column datatype='integer' name='House Age' ordinal='20' />
+            <column datatype='string' name='Renovation Status' ordinal='21' />
+            <column datatype='integer' name='Years Since Renovation' ordinal='22' />
+            <column datatype='real' name='Price per Sqft' ordinal='23' />
+          </columns>
+        </relation>
+        <metadata-records>
+          <metadata-record class='capability'>
+            <remote-name />
+            <remote-type>0</remote-type>
+            <parent-name>[cleaned_housing_data.csv]</parent-name>
+            <remote-alias />
+            <aggregation>Count</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='character-set'>"UTF-8"</attribute>
+              <attribute datatype='string' name='collation'>"en_US"</attribute>
+              <attribute datatype='string' name='field-delimiter'>","</attribute>
+              <attribute datatype='string' name='header-row'>"true"</attribute>
+              <attribute datatype='string' name='locale'>"en_US"</attribute>
+              <attribute datatype='string' name='single-char'>""</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>id</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[id]</local-name>
+            <parent-name>[cleaned_housing_data.csv]</parent-name>
+            <remote-alias>id</remote-alias>
+            <ordinal>0</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>date</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[date]</local-name>
+            <parent-name>[cleaned_housing_data.csv]</parent-name>
+            <remote-alias>date</remote-alias>
+            <ordinal>1</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <scale>1</scale>
+            <width>1073741823</width>
+            <contains-null>true</contains-null>
+            <collation flag='0' name='LEN_RUS' />
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Sale Price</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[Sale Price]</local-name>
+            <parent-name>[cleaned_housing_data.csv]</parent-name>
+            <remote-alias>Sale Price</remote-alias>
+            <ordinal>2</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Bedrooms</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[Bedrooms]</local-name>
+            <parent-name>[cleaned_housing_data.csv]</parent-name>
+            <remote-alias>Bedrooms</remote-alias>
+            <ordinal>3</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Bathrooms</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[Bathrooms]</local-name>
+            <parent-name>[cleaned_housing_data.csv]</parent-name>
+            <remote-alias>Bathrooms</remote-alias>
+            <ordinal>4</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Living Area Sqft</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[Living Area Sqft]</local-name>
+            <parent-name>[cleaned_housing_data.csv]</parent-name>
+            <remote-alias>Living Area Sqft</remote-alias>
+            <ordinal>5</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Lot Area Sqft</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[Lot Area Sqft]</local-name>
+            <parent-name>[cleaned_housing_data.csv]</parent-name>
+            <remote-alias>Lot Area Sqft</remote-alias>
+            <ordinal>6</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Floors</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[Floors]</local-name>
+            <parent-name>[cleaned_housing_data.csv]</parent-name>
+            <remote-alias>Floors</remote-alias>
+            <ordinal>7</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Waterfront</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[Waterfront]</local-name>
+            <parent-name>[cleaned_housing_data.csv]</parent-name>
+            <remote-alias>Waterfront</remote-alias>
+            <ordinal>8</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>View</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[View]</local-name>
+            <parent-name>[cleaned_housing_data.csv]</parent-name>
+            <remote-alias>View</remote-alias>
+            <ordinal>9</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Condition</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[Condition]</local-name>
+            <parent-name>[cleaned_housing_data.csv]</parent-name>
+            <remote-alias>Condition</remote-alias>
+            <ordinal>10</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Grade</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[Grade]</local-name>
+            <parent-name>[cleaned_housing_data.csv]</parent-name>
+            <remote-alias>Grade</remote-alias>
+            <ordinal>11</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Above Ground Area Sqft</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[Above Ground Area Sqft]</local-name>
+            <parent-name>[cleaned_housing_data.csv]</parent-name>
+            <remote-alias>Above Ground Area Sqft</remote-alias>
+            <ordinal>12</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Basement Area Sqft</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[Basement Area Sqft]</local-name>
+            <parent-name>[cleaned_housing_data.csv]</parent-name>
+            <remote-alias>Basement Area Sqft</remote-alias>
+            <ordinal>13</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Year Built</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[Year Built]</local-name>
+            <parent-name>[cleaned_housing_data.csv]</parent-name>
+            <remote-alias>Year Built</remote-alias>
+            <ordinal>14</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Year Renovated</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[Year Renovated]</local-name>
+            <parent-name>[cleaned_housing_data.csv]</parent-name>
+            <remote-alias>Year Renovated</remote-alias>
+            <ordinal>15</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Zipcode</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[Zipcode]</local-name>
+            <parent-name>[cleaned_housing_data.csv]</parent-name>
+            <remote-alias>Zipcode</remote-alias>
+            <ordinal>16</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Latitude</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[Latitude]</local-name>
+            <parent-name>[cleaned_housing_data.csv]</parent-name>
+            <remote-alias>Latitude</remote-alias>
+            <ordinal>17</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Longitude</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[Longitude]</local-name>
+            <parent-name>[cleaned_housing_data.csv]</parent-name>
+            <remote-alias>Longitude</remote-alias>
+            <ordinal>18</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Sale Year</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[Sale Year]</local-name>
+            <parent-name>[cleaned_housing_data.csv]</parent-name>
+            <remote-alias>Sale Year</remote-alias>
+            <ordinal>19</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>House Age</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[House Age]</local-name>
+            <parent-name>[cleaned_housing_data.csv]</parent-name>
+            <remote-alias>House Age</remote-alias>
+            <ordinal>20</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Renovation Status</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[Renovation Status]</local-name>
+            <parent-name>[cleaned_housing_data.csv]</parent-name>
+            <remote-alias>Renovation Status</remote-alias>
+            <ordinal>21</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <scale>1</scale>
+            <width>1073741823</width>
+            <contains-null>true</contains-null>
+            <collation flag='0' name='LEN_RUS' />
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Years Since Renovation</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[Years Since Renovation]</local-name>
+            <parent-name>[cleaned_housing_data.csv]</parent-name>
+            <remote-alias>Years Since Renovation</remote-alias>
+            <ordinal>22</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Price per Sqft</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[Price per Sqft]</local-name>
+            <parent-name>[cleaned_housing_data.csv]</parent-name>
+            <remote-alias>Price per Sqft</remote-alias>
+            <ordinal>23</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+          </metadata-record>
+        </metadata-records>
+      </connection>
+      <column datatype='integer' name='[id]' role='dimension' type='ordinal' />
+      <column datatype='integer' name='[Zipcode]' role='dimension' type='nominal' />
+      <column datatype='real' name='[Latitude]' role='measure' type='quantitative' />
+      <column datatype='real' name='[Longitude]' role='measure' type='quantitative' />
+      <layout dim-ordering='alphabetic' dim-percentage='0.5' measure-ordering='alphabetic' measure-percentage='0.5' show-structure='true' />
+    </datasource>
+  </datasources>
+  <worksheets>
+    <worksheet name='Count of Transformed Housing Data (KPI)'>
+      <table>
+        <rows>[federated.cleaned_housing_data].[id]</rows>
+        <cols />
+      </table>
+    </worksheet>
+    <worksheet name='Average Sale Prices (KPI)'>
+      <table>
+        <rows>[federated.cleaned_housing_data].[Sale Price]</rows>
+        <cols />
+      </table>
+    </worksheet>
+    <worksheet name='Area of House from Basement (KPI)'>
+      <table>
+        <rows>[federated.cleaned_housing_data].[Basement Area Sqft]</rows>
+        <cols />
+      </table>
+    </worksheet>
+    <worksheet name='Total Sales by Years Since Renovation (Bar Chart)'>
+      <table>
+        <rows>[federated.cleaned_housing_data].[Sale Price]</rows>
+        <cols>[federated.cleaned_housing_data].[Years Since Renovation]</cols>
+      </table>
+    </worksheet>
+    <worksheet name='Distribution of House Age by Renovation Status (Pie Chart)'>
+      <table>
+        <rows>[federated.cleaned_housing_data].[House Age]</rows>
+        <cols>[federated.cleaned_housing_data].[Renovation Status]</cols>
+      </table>
+    </worksheet>
+    <worksheet name='House Age Distribution by Bathrooms, Bedrooms and Floors (Bar Chart)'>
+      <table>
+        <rows>[federated.cleaned_housing_data].[House Age]</rows>
+        <cols>[federated.cleaned_housing_data].[Bedrooms]</cols>
+      </table>
+    </worksheet>
+  </worksheets>
+  <windows>
+    <window class='worksheet' name='Count of Transformed Housing Data (KPI)' />
+    <window class='worksheet' name='Average Sale Prices (KPI)' />
+    <window class='worksheet' name='Area of House from Basement (KPI)' />
+    <window class='worksheet' name='Total Sales by Years Since Renovation (Bar Chart)' />
+    <window class='worksheet' name='Distribution of House Age by Renovation Status (Pie Chart)' />
+    <window class='worksheet' name='House Age Distribution by Bathrooms, Bedrooms and Floors (Bar Chart)' />
+  </windows>
+</workbook>
+"""
+
+    with open(twb_path, 'w', encoding='utf-8') as f:
+        f.write(xml_content)
+    print(f"Tableau Workbook generated successfully at: {twb_path}")
+
+if __name__ == '__main__':
+    create_twb_file()

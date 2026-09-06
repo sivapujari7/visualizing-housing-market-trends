@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Interactive housing market trends analysis with integrated Tableau dashboards and stories.">
+    <title>{% block title %}Housing Market Trends | Tableau Analytics{% endblock %}</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    {% block head %}{% endblock %}
+</head>
+<body>
+    <!-- Responsive Navigation Header -->
+    <header>
+        <nav class="nav-container">
+            <a href="{{ url_for('home') }}" class="nav-brand">
+                <i class="fa-solid fa-house-laptop"></i>
+                <span>EstatesAnalytica</span>
+            </a>
+            <ul class="nav-menu">
+                <li>
+                    <a href="{{ url_for('home') }}" class="nav-link {% if request.path == '/' %}active{% endif %}">
+                        <i class="fa-solid fa-home"></i> Home
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ url_for('dashboard') }}" class="nav-link {% if request.path == '/dashboard' %}active{% endif %}">
+                        <i class="fa-solid fa-chart-line"></i> Dashboard
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ url_for('storyboard') }}" class="nav-link {% if request.path == '/storyboard' %}active{% endif %}">
+                        <i class="fa-solid fa-book-open"></i> Storyboard
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ url_for('about') }}" class="nav-link {% if request.path == '/about' %}active{% endif %}">
+                        <i class="fa-solid fa-circle-info"></i> About
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Main Content Block -->
+    <main class="page-container">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">
+                <i class="fa-solid fa-house-laptop" style="color: var(--primary); margin-right: 0.5rem;"></i>
+                EstatesAnalytica
+            </div>
+            <ul class="footer-links">
+                <li><a href="{{ url_for('home') }}">Home</a></li>
+                <li><a href="{{ url_for('dashboard') }}">Dashboard</a></li>
+                <li><a href="{{ url_for('storyboard') }}">Storyboard</a></li>
+                <li><a href="{{ url_for('about') }}">About Project</a></li>
+            </ul>
+        </div>
+        <div class="footer-copy">
+            <p>&copy; 2026 EstatesAnalytica | Powered by Flask, Tableau Public, and Python Data Pipelines.</p>
+        </div>
+    </footer>
+
+    {% block scripts %}{% endblock %}
+</body>
+</html>

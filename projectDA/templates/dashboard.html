@@ -1,0 +1,194 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard | Housing Market Trends{% endblock %}
+
+{% block head %}
+<!-- Chart.js for Fallback Visualizations -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+{% endblock %}
+
+{% block content %}
+<div id="dashboard-view">
+    <div class="page-header">
+        <div>
+            <h1 class="page-title">Housing Market Trends Dashboard</h1>
+            <p class="page-description">Analyze housing sales, renovation impacts, and feature distributions.</p>
+        </div>
+        
+        <!-- Toggle Switch: Tableau Live vs Local Fallback Visualizer -->
+        <div class="view-toggle-container">
+            <button id="btn-tableau-view" class="toggle-btn active">
+                <i class="fa-solid fa-cloud-bolt"></i> Tableau Live
+            </button>
+            <button id="btn-fallback-view" class="toggle-btn">
+                <i class="fa-solid fa-chart-bar"></i> Local fallback
+            </button>
+        </div>
+    </div>
+
+    <!-- Filters Section (Only displayed for Local Fallback, or for custom user interactions) -->
+    <div id="filter-section" class="glass-panel" style="display: none; margin-bottom: 2rem;">
+        <div class="filter-toolbar">
+            <!-- Bedrooms Filter -->
+            <div class="filter-group">
+                <label for="filter-bedrooms" class="filter-label">Bedrooms</label>
+                <select id="filter-bedrooms" class="filter-select">
+                    <option value="All">All Bedrooms</option>
+                    <option value="1">1 Bedroom</option>
+                    <option value="2">2 Bedrooms</option>
+                    <option value="3">3 Bedrooms</option>
+                    <option value="4">4 Bedrooms</option>
+                    <option value="5+">5+ Bedrooms</option>
+                </select>
+            </div>
+            <!-- Bathrooms Filter -->
+            <div class="filter-group">
+                <label for="filter-bathrooms" class="filter-label">Bathrooms</label>
+                <select id="filter-bathrooms" class="filter-select">
+                    <option value="All">All Bathrooms</option>
+                    <option value="0-1.5">0 - 1.5 Baths</option>
+                    <option value="1.75-2.5">1.75 - 2.5 Baths</option>
+                    <option value="2.75-3.5">2.75 - 3.5 Baths</option>
+                    <option value="3.75+">3.75+ Baths</option>
+                </select>
+            </div>
+            <!-- Floors Filter -->
+            <div class="filter-group">
+                <label for="filter-floors" class="filter-label">Floors</label>
+                <select id="filter-floors" class="filter-select">
+                    <option value="All">All Floors</option>
+                    <option value="1">1.0 Floor</option>
+                    <option value="1.5">1.5 Floors</option>
+                    <option value="2">2.0 Floors</option>
+                    <option value="2.5">2.5 Floors</option>
+                    <option value="3">3.0 Floors</option>
+                    <option value="3.5">3.5 Floors</option>
+                </select>
+            </div>
+            <!-- House Age Filter -->
+            <div class="filter-group">
+                <label for="filter-house-age" class="filter-label">House Age</label>
+                <select id="filter-house-age" class="filter-select">
+                    <option value="All">All Ages</option>
+                    <option value="New (<10 yrs)">New (&lt;10 yrs)</option>
+                    <option value="Moderate (10-30 yrs)">Moderate (10-30 yrs)</option>
+                    <option value="Old (30-50 yrs)">Old (30-50 yrs)</option>
+                    <option value="Vintage (50+ yrs)">Vintage (50+ yrs)</option>
+                </select>
+            </div>
+            <!-- Renovation Status Filter -->
+            <div class="filter-group">
+                <label for="filter-renovation-status" class="filter-label">Renovation</label>
+                <select id="filter-renovation-status" class="filter-select">
+                    <option value="All">All Statuses</option>
+                    <option value="Renovated">Renovated Only</option>
+                    <option value="Not Renovated">Not Renovated</option>
+                </select>
+            </div>
+            <!-- Sale Price Filter -->
+            <div class="filter-group">
+                <label for="filter-sale-price" class="filter-label">Sale Price</label>
+                <select id="filter-sale-price" class="filter-select">
+                    <option value="All">All Prices</option>
+                    <option value="Under $300k">Under $300k</option>
+                    <option value="$300k - $600k">$300k - $600k</option>
+                    <option value="$600k - $1M">$600k - $1M</option>
+                    <option value="Over $1M">Over $1M</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <!-- 1. TABLEAU EMBED CONTAINER -->
+    <div id="tableau-container" class="iframe-wrapper glass-panel">
+        <iframe src="{{ tableau_url }}?:embed=y&:showVizHome=no&:host_url=https%3A%2F%2Fpublic.tableau.com%2F&:tabs=yes&:toolbar=yes&:animate_transition=yes" 
+                title="Tableau Housing Market Dashboard" 
+                allowfullscreen>
+        </iframe>
+    </div>
+
+    <!-- 2. LOCAL FALLBACK VISUALIZER -->
+    <div id="fallback-container" class="fallback-dashboard" style="display: none;">
+        <!-- KPI Cards Grid -->
+        <div class="kpi-grid">
+            <div class="kpi-card glass-panel">
+                <div class="kpi-header">
+                    <span class="kpi-title">Count of Housing Data</span>
+                    <i class="fa-solid fa-calculator kpi-icon"></i>
+                </div>
+                <div id="kpi-total-houses" class="kpi-value">0</div>
+            </div>
+            <div class="kpi-card glass-panel">
+                <div class="kpi-header">
+                    <span class="kpi-title">Average Sale Price</span>
+                    <i class="fa-solid fa-dollar-sign kpi-icon"></i>
+                </div>
+                <div id="kpi-avg-price" class="kpi-value">$0</div>
+            </div>
+            <div class="kpi-card glass-panel">
+                <div class="kpi-header">
+                    <span class="kpi-title">Area from Basement</span>
+                    <i class="fa-solid fa-expand kpi-icon"></i>
+                </div>
+                <div id="kpi-basement-area" class="kpi-value">0 sqft</div>
+            </div>
+            <div class="kpi-card glass-panel">
+                <div class="kpi-header">
+                    <span class="kpi-title">Avg Price per Sqft</span>
+                    <i class="fa-solid fa-house-chimney-window kpi-icon"></i>
+                </div>
+                <div id="kpi-price-sqft" class="kpi-value">$0/sqft</div>
+            </div>
+        </div>
+
+        <!-- Interactive Charts Grid -->
+        <div class="charts-grid">
+            <!-- Chart 1: Total Sales by Years Since Renovation -->
+            <div class="chart-card chart-card-wide glass-panel">
+                <div class="chart-header">
+                    <h3 class="chart-title">Total Sales by Years Since Renovation</h3>
+                    <p class="chart-subtitle">Aggregated sales volume and sample distribution relative to renovation/construction time</p>
+                </div>
+                <div class="chart-body">
+                    <canvas id="chart-sales-renovation"></canvas>
+                </div>
+            </div>
+
+            <!-- Chart 2: Distribution of House Age by Renovation Status -->
+            <div class="chart-card glass-panel">
+                <div class="chart-header">
+                    <h3 class="chart-title">Distribution of House Age by Renovation Status</h3>
+                    <p class="chart-subtitle">Proportion of Renovated vs Not Renovated properties within filtered subset</p>
+                </div>
+                <div class="chart-body">
+                    <canvas id="chart-age-renovation"></canvas>
+                </div>
+            </div>
+
+            <!-- Chart 3: House Age Distribution by Bathrooms, Bedrooms, and Floors -->
+            <div class="chart-card glass-panel">
+                <div class="chart-header" style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1rem;">
+                    <div>
+                        <h3 class="chart-title">House Age by Property Features</h3>
+                        <p class="chart-subtitle">Average age of houses grouped by bedrooms, bathrooms, or floors</p>
+                    </div>
+                    <!-- Sub-toggles for Chart 3 -->
+                    <div class="view-toggle-container" style="padding: 0.25rem;">
+                        <button id="btn-group-bedrooms" class="toggle-btn active" style="padding: 0.35rem 0.85rem; font-size: 0.8rem;">Bedrooms</button>
+                        <button id="btn-group-bathrooms" class="toggle-btn" style="padding: 0.35rem 0.85rem; font-size: 0.8rem;">Bathrooms</button>
+                        <button id="btn-group-floors" class="toggle-btn" style="padding: 0.35rem 0.85rem; font-size: 0.8rem;">Floors</button>
+                    </div>
+                </div>
+                <div class="chart-body">
+                    <canvas id="chart-age-features"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<!-- App JS Logic -->
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+{% block title %}About | Housing Market Trends Analysis{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div>
+        <h1 class="page-title">About the Project</h1>
+        <p class="page-description">Methodology, technology stack, and data dictionary specifications.</p>
+    </div>
+</div>
+
+<div class="about-grid">
+    <!-- Left Column: Methodology & Data Cleansing -->
+    <div class="about-card glass-panel">
+        <h3><i class="fa-solid fa-gears" style="color: var(--primary); margin-right: 0.5rem;"></i> Data Preparation Pipeline</h3>
+        <p>
+            The project automates data intake, cleaning, validation, and feature engineering through an automated Python pipeline prior to visual analysis in Tableau. The raw dataset contains residential home sales in King County, Washington (Seattle area) between May 2014 and May 2015.
+        </p>
+
+        <h4 style="margin: 1.5rem 0 0.75rem; color: var(--text-highlight);">Executed ETL Tasks</h4>
+        <ul class="about-list">
+            <li>
+                <i class="fa-solid fa-check-double"></i>
+                <span><strong>Duplicate Removal:</strong> Identifies and filters out multiple entries using the unique home ID field (retaining the first occurrence).</span>
+            </li>
+            <li>
+                <i class="fa-solid fa-filter"></i>
+                <span><strong>Missing Value Resolution:</strong> Evaluates missing/null entries. Erroneous records are dropped, and remaining features are imputed using column medians or modes.</span>
+            </li>
+            <li>
+                <i class="fa-solid fa-clock"></i>
+                <span><strong>House Age:</strong> Calculated field computed as <code>Sale Year - Year Built</code>. Negative ranges are clipped to 0.</span>
+            </li>
+            <li>
+                <i class="fa-solid fa-paint-roller"></i>
+                <span><strong>Renovation Status:</strong> Computed as <code>'Renovated'</code> if the renovation year is greater than 0, otherwise labeled as <code>'Not Renovated'</code>.</span>
+            </li>
+            <li>
+                <i class="fa-solid fa-calendar-days"></i>
+                <span><strong>Years Since Renovation:</strong> Computed as <code>Sale Year - Year Renovated</code> for renovated properties, and default-linked to <code>House Age</code> for non-renovated ones.</span>
+            </li>
+            <li>
+                <i class="fa-solid fa-calculator"></i>
+                <span><strong>Price per Square Foot:</strong> Formulated as <code>Sale Price / Living Area Square Feet</code>, rounded to 2 decimal places.</span>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Right Column: Tech Stack & Instructions -->
+    <div class="about-card glass-panel" style="display: flex; flex-direction: column; gap: 1.5rem;">
+        <div>
+            <h3><i class="fa-solid fa-layer-group" style="color: var(--secondary); margin-right: 0.5rem;"></i> Technology Stack</h3>
+            <div class="tech-stack-tags">
+                <span class="tech-tag"><i class="fa-brands fa-python" style="color: #3776AB;"></i> Python 3.x</span>
+                <span class="tech-tag"><i class="fa-solid fa-flask" style="color: #9ca3af;"></i> Flask (Backend)</span>
+                <span class="tech-tag"><i class="fa-solid fa-chart-simple" style="color: #E27B11;"></i> Tableau Public</span>
+                <span class="tech-tag"><i class="fa-solid fa-chart-area" style="color: #FF6384;"></i> Chart.js (Local Fallback)</span>
+                <span class="tech-tag"><i class="fa-brands fa-html5" style="color: #E34F26;"></i> HTML5 / CSS3</span>
+                <span class="tech-tag"><i class="fa-brands fa-js" style="color: #F7DF1E;"></i> JavaScript ES6</span>
+            </div>
+        </div>
+
+        <div style="border-top: 1px solid var(--glass-border); padding-top: 1.5rem;">
+            <h3><i class="fa-solid fa-circle-play" style="color: var(--accent); margin-right: 0.5rem;"></i> Instructions</h3>
+            <p style="font-size: 0.9rem; line-height: 1.5;">
+                1. Open <strong>housing_analytics.twb</strong> in Tableau Desktop.<br>
+                2. If prompted, confirm the connection to the cleaned data file <code>data/cleaned_housing_data.csv</code>.<br>
+                3. Create or customize worksheets and dashboard layouts.<br>
+                4. Select <strong>Server > Publish Workbook</strong> to publish to Tableau Public.<br>
+                5. Copy your published dashboard embed URL and paste it into the <code>config.py</code> file under <code>TABLEAU_DASHBOARD_URL</code>.
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock %}

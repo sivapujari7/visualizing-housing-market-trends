@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block title %}Home | EstatesAnalytica Housing Insights{% endblock %}
+
+{% block content %}
+<section class="hero-section">
+    <div class="hero-tag">Tableau + Flask Analytics</div>
+    <h1 class="hero-title">Visualize <span>Housing Market</span> Trends Instantly</h1>
+    <p class="hero-subtitle">
+        An interactive, end-to-end data analytics platform utilizing Python data cleansing pipelines and embedded Tableau visualization dashboards to dissect housing sales, renovation impacts, and property features.
+    </p>
+    <div class="cta-group">
+        <a href="{{ url_for('dashboard') }}" class="btn btn-primary">
+            <i class="fa-solid fa-chart-pie"></i> Explore Dashboard
+        </a>
+        <a href="{{ url_for('storyboard') }}" class="btn btn-secondary">
+            <i class="fa-solid fa-book-open"></i> View Storyboard
+        </a>
+    </div>
+</section>
+
+<!-- Live Stats Overview -->
+<section class="stats-preview-grid">
+    <div class="stat-preview-card glass-panel">
+        <div class="stat-icon"><i class="fa-solid fa-house"></i></div>
+        <div class="stat-number">{{ stats.total_houses }}</div>
+        <div class="stat-label">Total Validated Houses</div>
+    </div>
+    <div class="stat-preview-card glass-panel">
+        <div class="stat-icon"><i class="fa-solid fa-tags"></i></div>
+        <div class="stat-number">{{ stats.avg_price }}</div>
+        <div class="stat-label">Average Sale Price</div>
+    </div>
+    <div class="stat-preview-card glass-panel">
+        <div class="stat-icon"><i class="fa-solid fa-hourglass-half"></i></div>
+        <div class="stat-number">{{ stats.avg_age }}</div>
+        <div class="stat-label">Average House Age</div>
+    </div>
+    <div class="stat-preview-card glass-panel">
+        <div class="stat-icon"><i class="fa-solid fa-hammer"></i></div>
+        <div class="stat-number">{{ stats.renovated_pct }}</div>
+        <div class="stat-label">Renovated Properties</div>
+    </div>
+</section>
+{% endblock %}
