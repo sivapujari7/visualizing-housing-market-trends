@@ -173,7 +173,7 @@ http://127.0.0.1:5000
 
 # 👨‍💻 Author
 
-**Sharon Kumar**
+**PUJARI SIVA**
 
 B.Tech - Artificial Intelligence & Machine Learning
 
